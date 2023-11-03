@@ -1,35 +1,9 @@
 import {useState} from 'react';
 import './components/Burger/Burger.css';
 import './App.css';
-import meat from './assets/meat.png';
-import cheese from './assets/cheese.png';
-import salad from './assets/salad.png';
-import bacon from './assets/bacon.png';
+import ingredients from './components/Ingredient/Ingredient';
+import {initialIngredientCounts, IngredientCount} from './components/Ingredient/IngredientCount';
 
-interface IngredientItem {
-  name: string;
-  price: number;
-  image: string;
-}
-
-interface IngredientCount {
-  name: string;
-  count: number;
-}
-
-const initialIngredientCounts: IngredientCount[] = [
-  {name: 'Meat', count: 0},
-  {name: 'Cheese', count: 0},
-  {name: 'Salad', count: 0},
-  {name: 'Bacon', count: 0},
-];
-
-const ingredients: IngredientItem[] = [
-  {name: 'Meat', price: 80, image: meat},
-  {name: 'Cheese', price: 50, image: cheese},
-  {name: 'Salad', price: 10, image: salad},
-  {name: 'Bacon', price: 60, image: bacon},
-];
 
 const App = () => {
   const [ingredientCounts, setIngredientCounts] = useState<IngredientCount[]>(initialIngredientCounts);
@@ -62,22 +36,19 @@ const App = () => {
       (sum, ingredient) => {
         const selectedIngredient = ingredients.find(item => item.name === ingredient);
         return sum + (selectedIngredient?.price || 0);
-      },
-      0
-    );
+      }, 0);
     return baseBurgerPrice + ingredientPriceSum;
   };
 
-
   return (
     <div className="App">
-      <div className='BurgerConstructor'>
+      <div className="BurgerConstructor">
         <div className="Ingredients">
           {ingredientCounts.map((ingredient, index) => (
-            <div className='ingredient' key={index}>
+            <div className="ingredient" key={index}>
               <img onClick={() => handleIncrement(index)} src={ingredients[index].image} alt={ingredient.name}/>
               <div>
-                <strong className='ingredientName'>{ingredient.name}</strong><strong>x{ingredient.count}</strong>
+                <strong className="ingredientName">{ingredient.name}</strong><strong>x{ingredient.count}</strong>
               </div>
               <button onClick={() => handleDecrement(index)}>Clear</button>
             </div>
